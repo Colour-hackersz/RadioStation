@@ -6,15 +6,15 @@
 <title>God Radio</title>
 <meta name="theme-color" content="#08090b">
 <style>
-*{box-sizing:border-box}html,body{margin:0;background:#08090b;color:#f5f5f7;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}body{padding:24px 16px 70px}.wrap{width:min(540px,100%);margin:auto}.art{width:100%;aspect-ratio:1;border-radius:34px;background:#171a20;display:grid;place-items:center;overflow:hidden;box-shadow:0 18px 60px #0008}.art img{width:100%;height:100%;object-fit:cover;display:none}.radio-icon{font-size:90px}h1{font-size:34px;line-height:1.1;text-align:center;margin:34px 0 8px}.artist{text-align:center;color:#9499a5;font-size:21px;margin-bottom:34px}.progress{height:7px;border-radius:99px;background:#272c34;overflow:hidden}.progress-fill{height:100%;width:0;background:#f5f5f7;border-radius:99px}.times{display:flex;justify-content:space-between;color:#7f8590;font-size:15px;margin-top:10px}.start{display:block;margin:20px auto 0;border:0;border-radius:14px;padding:13px 28px;min-width:150px;background:#fff;color:#111;font-weight:700;font-size:15px;cursor:pointer}.next{margin-top:42px;border:1px solid #292d35;border-radius:22px;padding:22px 24px;background:#111318}.label{font-size:13px;letter-spacing:2px;color:#777d89;margin-bottom:10px}.next-title{font-size:21px;font-weight:700}.next-artist{color:#858a95;margin-top:5px}hr{border:0;border-top:1px solid #24272e;margin:36px 0}h2{font-size:18px;margin:0 0 18px}p{font-size:17px;line-height:1.65;color:#9b9faa}.status{text-align:center;color:#777d88;margin-top:28px;font-size:14px}.hidden{display:none!important}.actions{display:flex;gap:10px;margin-top:18px}.action{flex:1;border:1px solid #292d35;border-radius:14px;padding:13px 12px;background:#111318;color:#f5f5f7;font-weight:700;font-size:14px;cursor:pointer}.action.primary{background:#f5f5f7;color:#111}.modal{position:fixed;inset:0;background:#000b;display:none;align-items:flex-end;justify-content:center;padding:16px;z-index:50}.modal.open{display:flex}.sheet{width:min(540px,100%);max-height:82vh;overflow:auto;background:#111318;border:1px solid #292d35;border-radius:24px;padding:22px}.sheet-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}.sheet h3{margin:0;font-size:21px}.close{border:0;background:#252932;color:#fff;width:36px;height:36px;border-radius:50%;font-size:20px}.queue-item{padding:14px 0;border-bottom:1px solid #252830}.queue-item:last-child{border-bottom:0}.queue-item strong{display:block;font-size:16px}.queue-item span{display:block;color:#858a95;margin-top:4px;font-size:14px}.queue-now{color:#fff!important;font-weight:700}.lyrics{margin-top:36px;border:1px solid #292d35;border-radius:22px;background:#0e1014;padding:20px;max-height:330px;overflow:auto;scroll-behavior:smooth}.lyrics-status{color:#777d88;font-size:14px;margin-bottom:12px}.lyric-line{font-size:17px;line-height:1.6;color:#696f7b;padding:5px 0;transition:.2s}.lyric-line.active{color:#fff;font-weight:800;font-size:20px}.lyrics-empty{color:#777d88;font-size:15px;line-height:1.6}@media(max-width:420px){.actions{flex-direction:column}}
+*{box-sizing:border-box}html,body{margin:0;background:#08090b;color:#f5f5f7;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}body{padding:24px 16px 70px}.wrap{width:min(540px,100%);margin:auto}.art{width:100%;aspect-ratio:1;border-radius:34px;background:#171a20;display:grid;place-items:center;overflow:hidden;box-shadow:0 18px 60px #0008}.art img{width:100%;height:100%;object-fit:cover;display:none}.radio-icon{font-size:90px}h1{font-size:34px;line-height:1.1;text-align:center;margin:34px 0 8px}.artist{text-align:center;color:#9499a5;font-size:21px;margin-bottom:34px}.progress{height:7px;border-radius:99px;background:#272c34;overflow:hidden}.progress-fill{height:100%;width:0;background:#f5f5f7;border-radius:99px}.times{display:flex;justify-content:space-between;color:#7f8590;font-size:15px;margin-top:10px}.start{display:block;margin:20px auto 0;border:0;border-radius:14px;padding:13px 28px;min-width:150px;background:#fff;color:#111;font-weight:700;font-size:15px;cursor:pointer}.next{margin-top:42px;border:1px solid #292d35;border-radius:22px;padding:22px 24px;background:#111318}.label{font-size:13px;letter-spacing:2px;color:#777d89;margin-bottom:10px}.next-title{font-size:21px;font-weight:700}.next-artist{color:#858a95;margin-top:5px}hr{border:0;border-top:1px solid #24272e;margin:36px 0}h2{font-size:18px;margin:0 0 18px}p{font-size:17px;line-height:1.65;color:#9b9faa}.status{text-align:center;color:#777d88;margin-top:28px;font-size:14px}.hidden{display:none!important}.actions{display:flex;gap:10px;margin-top:18px}.action.next-action{background:#171a20}.action:active{transform:scale(.98)}.action{flex:1;border:1px solid #292d35;border-radius:14px;padding:13px 12px;background:#111318;color:#f5f5f7;font-weight:700;font-size:14px;cursor:pointer}.action.primary{background:#f5f5f7;color:#111}.modal{position:fixed;inset:0;background:#000b;display:none;align-items:flex-end;justify-content:center;padding:16px;z-index:50}.modal.open{display:flex}.sheet{width:min(540px,100%);max-height:82vh;overflow:auto;background:#111318;border:1px solid #292d35;border-radius:24px;padding:22px}.sheet-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}.sheet h3{margin:0;font-size:21px}.close{border:0;background:#252932;color:#fff;width:36px;height:36px;border-radius:50%;font-size:20px}.queue-item{padding:14px 0;border-bottom:1px solid #252830}.queue-item:last-child{border-bottom:0}.queue-item strong{display:block;font-size:16px}.queue-item span{display:block;color:#858a95;margin-top:4px;font-size:14px}.queue-now{color:#fff!important;font-weight:700}.lyrics{margin-top:36px;border:1px solid #292d35;border-radius:22px;background:#0e1014;padding:20px;max-height:330px;overflow:auto;scroll-behavior:smooth}.lyrics-status{color:#777d88;font-size:14px;margin-bottom:12px}.lyric-line{font-size:17px;line-height:1.6;color:#696f7b;padding:5px 0;transition:.2s}.lyric-line.active{color:#fff;font-weight:800;font-size:20px}.lyrics-empty{color:#777d88;font-size:15px;line-height:1.6}@media(max-width:420px){.actions{flex-direction:column}}
 
 #musicGlow{position:fixed;inset:-20%;z-index:-1;pointer-events:none;opacity:0;filter:blur(70px);transform:scale(1.08);background:
  radial-gradient(circle at 50% 35%, rgba(0,210,255,.9), transparent 28%),
  radial-gradient(circle at 20% 80%, rgba(130,70,255,.75), transparent 32%),
  radial-gradient(circle at 85% 75%, rgba(255,60,170,.65), transparent 30%);
-transition:opacity .08s linear,filter .15s linear;mix-blend-mode:screen}
+transition:opacity .12s ease-out;mix-blend-mode:screen;will-change:opacity,background-image}
 body{transition:background-color .12s ease}
-.music-flash{animation:musicFlash .18s ease-out}
+.music-flash{animation:musicFlash .14s ease-out}
 @keyframes musicFlash{0%{filter:brightness(1.35)}100%{filter:brightness(1)}}
 </style>
 </head>
@@ -26,7 +26,7 @@ body{transition:background-color .12s ease}
 <div class="progress"><div class="progress-fill" id="progress"></div></div><div class="times"><span id="elapsed">0:00</span><span id="remaining">-0:00</span></div>
 <button class="start" id="startButton">Mute</button>
 <div class="next"><div class="label">NEXT ON AIR</div><div class="next-title" id="nextTitle">Loading…</div><div class="next-artist" id="nextArtist"></div></div>
-<div class="actions"><button class="action primary" id="queueButton">View Queue</button></div>
+<div class="actions"><button class="action primary" id="queueButton">View Queue</button><button class="action next-action" id="playNextButton">Play Next</button></div>
 <div class="lyrics" id="lyricsBox"><h2>Live Lyrics</h2><div class="lyrics-status" id="lyricsStatus">Waiting for the current song…</div><div id="lyricsLines" class="lyrics-empty">Synchronized lyrics will appear here when available.</div></div>
 <hr><h2>About this player</h2><p>This player is specially made by God himself. It is designed to be listened to as a continuous radio broadcast — not skipped or changed.</p><p>Listen to it and, in the spirit of the broadcast, may it bring you everything you want in your life.</p><p>The broadcast follows one shared UTC-based schedule, so devices joining the station can hear the same point in the same song.</p>
 <div class="status" id="status">Connecting to the broadcast…</div><audio id="audio" preload="auto" playsinline autoplay></audio>
@@ -36,7 +36,7 @@ body{transition:background-color .12s ease}
 <script src="https://cdn.jsdelivr.net/npm/jsmediatags@3.9.5/dist/jsmediatags.min.js"></script>
 <script>
 const audio=document.getElementById('audio'),titleEl=document.getElementById('title'),artistEl=document.getElementById('artist'),nextTitleEl=document.getElementById('nextTitle'),nextArtistEl=document.getElementById('nextArtist'),coverEl=document.getElementById('cover'),fallbackArt=document.getElementById('fallbackArt'),progressEl=document.getElementById('progress'),elapsedEl=document.getElementById('elapsed'),remainingEl=document.getElementById('remaining'),statusEl=document.getElementById('status'),startButton=document.getElementById('startButton');
-const queueButton=document.getElementById('queueButton'),queueModal=document.getElementById('queueModal'),queueList=document.getElementById('queueList'),lyricsStatus=document.getElementById('lyricsStatus'),lyricsLinesEl=document.getElementById('lyricsLines');
+const queueButton=document.getElementById('queueButton'),playNextButton=document.getElementById('playNextButton'),queueModal=document.getElementById('queueModal'),queueList=document.getElementById('queueList'),lyricsStatus=document.getElementById('lyricsStatus'),lyricsLinesEl=document.getElementById('lyricsLines');
 let playlist=[],currentIndex=-1,serverOffset=0,started=false,metaCache=new Map(),lyricLines=[],activeLyricIndex=-1,lyricsTrackKey='';
 let audioCtx=null, analyser=null, sourceNode=null, freqData=null, visualFrame=0, beatAverage=0, lastBeat=0;
 const musicGlow=document.getElementById('musicGlow');
@@ -58,23 +58,29 @@ function setupAudioReactive(){
 function visualizeMusic(ts){
   visualFrame=requestAnimationFrame(visualizeMusic);
   if(!analyser||!freqData||!started||audio.paused){musicGlow.style.opacity='0';return}
+  // Limit visual updates to ~30 FPS so the UI stays smooth on phones.
+  if(ts-(visualizeMusic.lastFrame||0)<33)return;
+  visualizeMusic.lastFrame=ts;
   analyser.getByteFrequencyData(freqData);
   let bass=0,mid=0,total=0;
   const bassEnd=Math.max(2,Math.floor(freqData.length*.10));
   const midEnd=Math.max(bassEnd+1,Math.floor(freqData.length*.45));
   for(let i=0;i<freqData.length;i++){
     const v=freqData[i]/255; total+=v;
-    if(i<bassEnd) bass+=v;
-    else if(i<midEnd) mid+=v;
+    if(i<bassEnd)bass+=v;else if(i<midEnd)mid+=v;
   }
-  bass/=bassEnd; mid/=(midEnd-bassEnd); const level=Math.min(1,(bass*.72+mid*.28)*1.65);
+  bass/=bassEnd;mid/=(midEnd-bassEnd);
+  const level=Math.min(1,(bass*.72+mid*.28)*1.65);
   beatAverage=beatAverage*.94+bass*.06;
   const threshold=Math.max(.20,beatAverage*1.48);
-  const beat=bass>threshold && bass>.30 && ts-lastBeat>170;
+  const beat=bass>threshold&&bass>.30&&ts-lastBeat>170;
   const pulse=beat?Math.min(1,bass*1.7):level*.24;
   musicGlow.style.opacity=String(Math.min(.72,.08+pulse*.62));
-  musicGlow.style.filter=`blur(${Math.max(35,75-level*35)}px) saturate(${1.05+level*1.4})`;
-  if(beat){lastBeat=ts;document.body.classList.remove('music-flash');void document.body.offsetWidth;document.body.classList.add('music-flash')}
+  if(beat){
+    lastBeat=ts;
+    document.body.classList.remove('music-flash');
+    requestAnimationFrame(()=>document.body.classList.add('music-flash'));
+  }
   const hue=(ts*.025+total*120)%360;
   musicGlow.style.background=`radial-gradient(circle at ${30+level*35}% ${30+level*20}%, hsla(${hue},100%,62%,${.75+pulse*.25}), transparent 28%),radial-gradient(circle at 18% 82%, hsla(${(hue+95)%360},95%,60%,.65), transparent 32%),radial-gradient(circle at 85% 75%, hsla(${(hue+210)%360},95%,65%,.6), transparent 30%)`;
 }
@@ -90,7 +96,14 @@ function scheduleInfo(){const total=playlist.reduce((a,s)=>a+Number(s.duration),
 function parseLRC(t){const o=[];for(const line of String(t||'').split(/\r?\n/)){const m=[...line.matchAll(/\[(\d{1,3}):(\d{2}(?:\.\d{1,3})?)\]/g)];if(!m.length)continue;const text=line.replace(/\[[^\]]+\]/g,'').trim();for(const x of m)o.push({time:Number(x[1])*60+Number(x[2]),text})}return o.sort((a,b)=>a.time-b.time)}
 function renderLyrics(){if(!lyricLines.length){lyricsLinesEl.className='lyrics-empty';lyricsLinesEl.textContent='No synchronized lyrics were found for this song.';return}lyricsLinesEl.className='';lyricsLinesEl.innerHTML=lyricLines.map((x,i)=>`<div class="lyric-line" data-i="${i}">${esc(x.text||'♪')}</div>`).join('')}
 async function loadLyrics(s){const m=await meta(s),key=(m.title+'|'+m.artist).toLowerCase();if(key===lyricsTrackKey)return;lyricsTrackKey=key;lyricLines=[];activeLyricIndex=-1;lyricsStatus.textContent='Searching synced lyrics for '+m.title+'…';lyricsLinesEl.className='lyrics-empty';lyricsLinesEl.textContent='Loading…';try{const ck='radioLyrics:'+key,c=localStorage.getItem(ck);if(c){const d=JSON.parse(c);lyricLines=parseLRC(d.syncedLyrics||'')}if(!lyricLines.length){const r=await fetch('https://lrclib.net/api/search?track_name='+encodeURIComponent(m.title)+'&artist_name='+encodeURIComponent(m.artist));if(!r.ok)throw Error();const a=await r.json(),best=(Array.isArray(a)?a:[]).find(x=>x.syncedLyrics);if(best){localStorage.setItem(ck,JSON.stringify(best));lyricLines=parseLRC(best.syncedLyrics)}}renderLyrics();lyricsStatus.textContent=lyricLines.length?'LIVE • synchronized to the radio':'Synced lyrics unavailable for this song'}catch{lyricsStatus.textContent='Could not load synced lyrics right now';lyricsLinesEl.className='lyrics-empty';lyricsLinesEl.textContent='The radio will continue playing normally.'}}
-function tickLyrics(){if(!lyricLines.length)return;let l=0,h=lyricLines.length-1,a=-1,t=audio.currentTime;while(l<=h){let m=(l+h)>>1;if(lyricLines[m].time<=t){a=m;l=m+1}else h=m-1}if(a===activeLyricIndex)return;activeLyricIndex=a;lyricsLinesEl.querySelectorAll('.lyric-line').forEach((e,i)=>e.classList.toggle('active',i===a));if(a>=0)lyricsLinesEl.querySelector(`[data-i="${a}"]`)?.scrollIntoView({block:'center',behavior:'smooth'})}
+function tickLyrics(){if(!lyricLines.length)return;let l=0,h=lyricLines.length-1,a=-1,t=audio.currentTime;while(l<=h){let m=(l+h)>>1;if(lyricLines[m].time<=t){a=m;l=m+1}else h=m-1}if(a===activeLyricIndex)return;activeLyricIndex=a;lyricsLinesEl.querySelectorAll('.lyric-line').forEach((e,i)=>e.classList.toggle('active',i===a));if(a>=0){
+  const line=lyricsLinesEl.querySelector(`[data-i="${a}"]`);
+  const box=document.getElementById('lyricsBox');
+  if(line&&box){
+    const target=line.offsetTop-(box.clientHeight/2)+(line.offsetHeight/2)-10;
+    box.scrollTo({top:Math.max(0,target),behavior:'smooth'});
+  }
+}}
 async function applyMeta(s,which='current'){const m=await meta(s);if(which==='current'){titleEl.textContent=m.title;artistEl.textContent=m.artist;showCover(m.cover)}else{nextTitleEl.textContent=m.title;nextArtistEl.textContent=m.artist}}
 function showCover(c){if(c){coverEl.src=c;coverEl.style.display='block';fallbackArt.style.display='none'}else{coverEl.removeAttribute('src');coverEl.style.display='none';fallbackArt.style.display='block'}}
 async function showTrack(i){currentIndex=i;const s=playlist[i];await applyMeta(s,'current');const n=playlist[(i+1)%playlist.length];applyMeta(n,'next');audio.src=s.url;audio.load();setupAudioReactive();loadLyrics(s)}
@@ -99,6 +112,31 @@ function openModal(m){m.classList.add('open');document.body.style.overflow='hidd
 async function jump(){if(!playlist.length)return;const x=scheduleInfo();if(x.index!==currentIndex)await showTrack(x.index);const set=()=>{try{audio.currentTime=Math.min(x.offset,Math.max(0,audio.duration-.15))}catch{}};if(!Number.isFinite(audio.duration)||audio.duration<=0)await new Promise(r=>{const f=()=>{audio.removeEventListener('loadedmetadata',f);r()};audio.addEventListener('loadedmetadata',f,{once:true});setTimeout(r,4000)});set();try{audio.muted=false;await audio.play();started=true;setupAudioReactive();if(audioCtx&&audioCtx.state==='suspended')audioCtx.resume().catch(()=>{});startButton.classList.add('hidden');startButton.textContent='Mute';statusEl.textContent='LIVE • synchronized broadcast'}catch{started=false;startButton.classList.remove('hidden');startButton.textContent='Tap to Start';statusEl.textContent='Autoplay was blocked by your browser. Tap the button once to start the radio.'}}
 async function tick(){if(!playlist.length)return;const x=scheduleInfo();if(x.index!==currentIndex){await showTrack(x.index);if(started)jump()}const d=Number(playlist[x.index].duration);progressEl.style.width=Math.min(100,x.offset/d*100)+'%';elapsedEl.textContent=fmt(x.offset);remainingEl.textContent='-'+fmt(d-x.offset)}
 document.addEventListener('pointerdown',()=>{if(audioCtx&&audioCtx.state==='suspended')audioCtx.resume().catch(()=>{})},{passive:true});
+async function playNextForUser(){
+  if(!playlist.length)return;
+  const next=(currentIndex+1)%playlist.length;
+  await showTrack(next);
+  // User-requested skip is intentionally local; the shared radio schedule is unchanged.
+  try{
+    await new Promise(resolve=>{
+      if(audio.readyState>=1)return resolve();
+      audio.addEventListener('loadedmetadata',resolve,{once:true});
+      setTimeout(resolve,4000);
+    });
+    audio.currentTime=0;
+    audio.muted=false;
+    await audio.play();
+    started=true;
+    setupAudioReactive();
+    if(audioCtx&&audioCtx.state==='suspended')audioCtx.resume().catch(()=>{});
+    startButton.classList.remove('hidden');
+    startButton.textContent='Mute';
+    statusEl.textContent='PLAYING NEXT • local playback';
+  }catch(e){
+    statusEl.textContent='Tap Mute/Start to play the next song.';
+  }
+}
+playNextButton.onclick=playNextForUser;
 startButton.onclick=async()=>{if(!started)return jump();audio.muted=!audio.muted;startButton.classList.remove('hidden');startButton.textContent=audio.muted?'Unmute':'Mute';statusEl.textContent=audio.muted?'LIVE • muted':'LIVE • synchronized broadcast'};
 queueButton.onclick=async()=>{openModal(queueModal);await renderQueue()};document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>closeModal(document.getElementById(b.dataset.close)));document.querySelectorAll('.modal').forEach(m=>m.onclick=e=>{if(e.target===m)closeModal(m)});
 audio.addEventListener('timeupdate',tickLyrics);audio.addEventListener('error',()=>statusEl.textContent='Could not load the current MP3. Check /songs/.');audio.addEventListener('ended',jump);document.addEventListener('visibilitychange',()=>{if(!document.hidden&&playlist.length)jump()});
