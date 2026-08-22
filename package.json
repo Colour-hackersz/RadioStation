@@ -1,0 +1,7 @@
+{
+  "name": "netlify-radio-station",
+  "private": true,
+  "version": "2.0.0",
+  "scripts": {"build": "node scripts/generate-playlist.js"},
+  "dependencies": {"music-metadata": "^10.9.0"}
+}
