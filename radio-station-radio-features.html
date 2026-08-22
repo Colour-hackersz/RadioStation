@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Radio Station</title>
+<meta name="theme-color" content="#08090b">
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:#08090b;color:#f5f5f7;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+body{padding:24px 16px 70px}.wrap{width:min(540px,100%);margin:auto}
+.art{width:100%;aspect-ratio:1/1;border-radius:34px;background:#171a20;display:grid;place-items:center;overflow:hidden;box-shadow:0 18px 60px #0008}
+.art img{width:100%;height:100%;object-fit:cover;display:none}.radio-icon{font-size:90px}
+h1{font-size:34px;line-height:1.1;text-align:center;margin:34px 0 8px}.artist{text-align:center;color:#9499a5;font-size:21px;margin-bottom:34px}
+.progress{height:7px;border-radius:99px;background:#272c34;overflow:hidden}.progress-fill{height:100%;width:0;background:#f5f5f7;border-radius:99px}
+.times{display:flex;justify-content:space-between;color:#7f8590;font-size:15px;margin-top:10px}
+.next{margin-top:42px;border:1px solid #292d35;border-radius:22px;padding:22px 24px;background:#111318}
+.label{font-size:13px;letter-spacing:2px;color:#777d89;margin-bottom:10px}.next-title{font-size:21px;font-weight:700}.next-artist{color:#858a95;margin-top:5px}
+hr{border:0;border-top:1px solid #24272e;margin:36px 0}h2{font-size:18px;margin:0 0 18px}p{font-size:17px;line-height:1.65;color:#9b9faa}
+.status{text-align:center;color:#777d88;margin-top:28px;font-size:14px}
+.start{display:block;margin:20px auto 0;border:0;border-radius:14px;padding:13px 28px;min-width:150px;background:#fff;color:#111;font-weight:700;font-size:15px;cursor:pointer}.start:active{transform:scale(.98)}
+.hidden{display:none!important}
+
+/* Queue, requests and lyrics */
+.actions{display:flex;gap:10px;margin-top:18px}
+.action{flex:1;border:1px solid #292d35;border-radius:14px;padding:13px 12px;background:#111318;color:#f5f5f7;font-weight:700;font-size:14px;cursor:pointer}
+.action.primary{background:#f5f5f7;color:#111}
+.action:active{transform:scale(.98)}
+.modal{position:fixed;inset:0;background:#000b;display:none;align-items:flex-end;justify-content:center;padding:16px;z-index:50}
+.modal.open{display:flex}
+.sheet{width:min(540px,100%);max-height:82vh;overflow:auto;background:#111318;border:1px solid #292d35;border-radius:24px;padding:22px}
+.sheet-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}.sheet h3{margin:0;font-size:21px}
+.close{border:0;background:#252932;color:#fff;width:36px;height:36px;border-radius:50%;font-size:20px;cursor:pointer}
+.queue-item{padding:14px 0;border-bottom:1px solid #252830}.queue-item:last-child{border-bottom:0}
+.queue-item strong{display:block;font-size:16px}.queue-item span{display:block;color:#858a95;margin-top:4px;font-size:14px}.queue-now{color:#fff!important;font-weight:700}
+.request-form label{display:block;color:#9b9faa;font-size:13px;margin:14px 0 7px}.request-form select,.request-form input,.request-form textarea{width:100%;border:1px solid #30343d;background:#08090b;color:#fff;border-radius:12px;padding:13px;font:inherit;outline:none}.request-form button{width:100%;margin-top:16px;border:0;border-radius:13px;padding:14px;background:#fff;color:#111;font-weight:800;cursor:pointer}
+.request-note{font-size:13px;color:#777d88;line-height:1.5;margin-top:12px}
+.lyrics{margin-top:36px;border:1px solid #292d35;border-radius:22px;background:#0e1014;padding:20px;max-height:330px;overflow:auto;scroll-behavior:smooth}.lyrics h2{margin-bottom:14px}.lyrics-status{color:#777d88;font-size:14px;margin-bottom:12px}.lyric-line{font-size:17px;line-height:1.6;color:#696f7b;padding:5px 0;transition:.2s}.lyric-line.active{color:#fff;font-weight:800;font-size:20px}.lyrics-empty{color:#777d88;font-size:15px;line-height:1.6}
+@media(max-width:420px){.actions{flex-direction:column}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="art"><div class="radio-icon" id="fallbackArt">📻</div><img id="cover" alt="Current song cover"></div>
+  <h1 id="title">Loading radio…</h1>
+  <div class="artist" id="artist">Please wait</div>
+  <div class="progress"><div class="progress-fill" id="progress"></div></div>
+  <div class="times"><span id="elapsed">0:00</span><span id="remaining">-0:00</span></div>
+  <button class="start hidden" id="startButton">Start Radio</button>
+
+  <div class="next">
+    <div class="label">NEXT ON AIR</div>
+    <div class="next-title" id="nextTitle">Loading…</div>
+    <div class="next-artist" id="nextArtist"></div>
+  </div>
+
+  <div class="actions">
+    <button class="action" id="queueButton">View Queue</button>
+    <button class="action primary" id="requestButton">Request Next Song</button>
+  </div>
+
+  <div class="lyrics" id="lyricsBox">
+    <h2>Live Lyrics</h2>
+    <div class="lyrics-status" id="lyricsStatus">Waiting for the current song…</div>
+    <div id="lyricsLines" class="lyrics-empty">Synchronized lyrics will appear here when available.</div>
+  </div>
+
+  <hr>
+  <h2>About this player</h2>
+  <p>This player is specially made by God himself. It is designed to be listened to as a continuous radio broadcast — not skipped or changed.</p>
+  <p>Listen to it and, in the spirit of the broadcast, may it bring you everything you want in your life.</p>
+  <p>The broadcast follows one shared UTC-based schedule, so devices joining the station can hear the same point in the same song.</p>
+
+  <div class="status" id="status">Connecting to the broadcast…</div>
+  <audio id="audio" preload="auto" playsinline></audio>
+</div>
+
+<div class="modal" id="queueModal">
+  <div class="sheet">
+    <div class="sheet-head"><h3>Coming Next</h3><button class="close" data-close="queueModal">×</button></div>
+    <div id="queueList"></div>
+  </div>
+</div>
+
+<div class="modal" id="requestModal">
+  <div class="sheet">
+    <div class="sheet-head"><h3>Request a Song</h3><button class="close" data-close="requestModal">×</button></div>
+    <form class="request-form" name="song-request" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" id="requestForm">
+      <input type="hidden" name="form-name" value="song-request">
+      <p hidden><label>Don’t fill this out: <input name="bot-field"></label></p>
+      <label for="requestSong">Song</label>
+      <select id="requestSong" name="song" required></select>
+      <label for="requester">Your name (optional)</label>
+      <input id="requester" name="requester" maxlength="60" placeholder="Anonymous">
+      <label for="message">Message (optional)</label>
+      <textarea id="message" name="message" rows="3" maxlength="300" placeholder="Play this next, please…"></textarea>
+      <button type="submit">Send Request</button>
+      <div class="request-note" id="requestStatus">Requests are sent to the site's Netlify Forms inbox. They do not automatically change the radio schedule.</div>
+    </form>
+  </div>
+</div>
+
+<script>
+const audio=document.getElementById("audio"),titleEl=document.getElementById("title"),artistEl=document.getElementById("artist");
+const nextTitleEl=document.getElementById("nextTitle"),nextArtistEl=document.getElementById("nextArtist"),coverEl=document.getElementById("cover");
+const fallbackArt=document.getElementById("fallbackArt"),progressEl=document.getElementById("progress"),elapsedEl=document.getElementById("elapsed");
+const remainingEl=document.getElementById("remaining"),statusEl=document.getElementById("status"),startButton=document.getElementById("startButton");
+
+let playlist=[],currentIndex=-1,serverOffset=0,started=false;
+let lyricLines=[],activeLyricIndex=-1,lyricsTrackKey="";
+const queueButton=document.getElementById("queueButton"),requestButton=document.getElementById("requestButton");
+const queueModal=document.getElementById("queueModal"),requestModal=document.getElementById("requestModal");
+const queueList=document.getElementById("queueList"),requestSong=document.getElementById("requestSong");
+const requestForm=document.getElementById("requestForm"),requestStatus=document.getElementById("requestStatus");
+const lyricsStatus=document.getElementById("lyricsStatus"),lyricsLinesEl=document.getElementById("lyricsLines"),lyricsBox=document.getElementById("lyricsBox");
+
+const nowMs=()=>Date.now()+serverOffset;
+const fmt=s=>{s=Math.max(0,Math.floor(Number(s)||0));return `${Math.floor(s/60)}:${String(s%60).padStart(2,"0")}`};
+
+async function loadPlaylist(){
+  const r=await fetch("/playlist.json?v="+Date.now(),{cache:"no-store"});
+  if(!r.ok) throw new Error("playlist.json could not be loaded ("+r.status+")");
+  const data=await r.json();
+  if(!Array.isArray(data)||!data.length) throw new Error("No MP3 files were found in the songs folder.");
+  playlist=data.filter(x=>x&&x.url&&Number(x.duration)>0);
+  if(!playlist.length) throw new Error("MP3 files were found, but their durations could not be read.");
+}
+
+async function syncClock(){
+  try{
+    const t0=Date.now(),r=await fetch("/api/time?x="+Date.now(),{cache:"no-store"});
+    const t1=Date.now();
+    if(r.ok){const d=await r.json();serverOffset=Number(d.now)-((t0+t1)/2)}
+  }catch(e){serverOffset=0}
+}
+
+function scheduleInfo(){
+  const total=playlist.reduce((a,s)=>a+Number(s.duration),0);
+  const epoch=Date.UTC(2026,0,1,0,0,0);
+  let elapsed=((nowMs()-epoch)/1000)%total;if(elapsed<0)elapsed+=total;
+  let acc=0;
+  for(let i=0;i<playlist.length;i++){const d=Number(playlist[i].duration);if(elapsed<acc+d)return {index:i,offset:elapsed-acc};acc+=d}
+  return {index:0,offset:0};
+}
+
+function songName(song){return (song.title||song.filename||"Unknown song").trim()}
+function songArtist(song){return (song.artist||"Unknown Artist").trim()}
+function esc(s){return String(s).replace(/[&<>'"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;","\"":"&quot;"}[c]))}
+
+function parseLRC(text){
+  const out=[];
+  for(const raw of String(text||"").split(/\r?\n/)){
+    const m=[...raw.matchAll(/\[(\d{1,3}):(\d{2}(?:\.\d{1,3})?)\]/g)];
+    if(!m.length)continue;
+    const lyric=raw.replace(/\[[^\]]+\]/g,"").trim();
+    for(const x of m) out.push({time:Number(x[1])*60+Number(x[2]),text:lyric});
+  }
+  return out.filter(x=>Number.isFinite(x.time)).sort((a,b)=>a.time-b.time);
+}
+
+function renderLyrics(lines){
+  if(!lines.length){lyricsLinesEl.className="lyrics-empty";lyricsLinesEl.textContent="No synchronized lyrics were found for this song.";return}
+  lyricsLinesEl.className="";
+  lyricsLinesEl.innerHTML=lines.map((x,i)=>`<div class="lyric-line" data-lyric="${i}">${esc(x.text||"♪")}</div>`).join("");
+}
+
+async function loadLyrics(song){
+  const key=(songName(song)+"|"+songArtist(song)).toLowerCase();
+  if(key===lyricsTrackKey)return;
+  lyricsTrackKey=key;lyricLines=[];activeLyricIndex=-1;
+  lyricsStatus.textContent=`Searching synced lyrics for ${songName(song)}…`;
+  lyricsLinesEl.className="lyrics-empty";lyricsLinesEl.textContent="Loading…";
+  const cacheKey="radioLyrics:"+key;
+  try{
+    const cached=localStorage.getItem(cacheKey);
+    if(cached){const data=JSON.parse(cached);if(data&&data.syncedLyrics){lyricLines=parseLRC(data.syncedLyrics);}}
+    if(!lyricLines.length){
+      const u="https://lrclib.net/api/search?track_name="+encodeURIComponent(songName(song))+"&artist_name="+encodeURIComponent(songArtist(song));
+      const r=await fetch(u,{headers:{"Accept":"application/json"}});
+      if(!r.ok)throw new Error("lyrics search failed");
+      const results=await r.json();
+      const best=(Array.isArray(results)?results:[]).find(x=>x.syncedLyrics) || (Array.isArray(results)?results[0]:null);
+      if(best&&best.syncedLyrics){localStorage.setItem(cacheKey,JSON.stringify(best));lyricLines=parseLRC(best.syncedLyrics);}
+    }
+    if(lyricsTrackKey!==key)return;
+    renderLyrics(lyricLines);
+    lyricsStatus.textContent=lyricLines.length?"LIVE • synchronized to the radio":"Synced lyrics unavailable for this song";
+  }catch(e){
+    lyricsStatus.textContent="Could not load synced lyrics right now";
+    lyricsLinesEl.className="lyrics-empty";lyricsLinesEl.textContent="Lyrics service unavailable. The radio will continue playing normally.";
+  }
+}
+
+function tickLyrics(){
+  if(!lyricLines.length||!Number.isFinite(audio.currentTime))return;
+  let lo=0,hi=lyricLines.length-1,ans=-1,t=audio.currentTime;
+  while(lo<=hi){const mid=(lo+hi)>>1;if(lyricLines[mid].time<=t){ans=mid;lo=mid+1}else hi=mid-1}
+  if(ans===activeLyricIndex)return;
+  activeLyricIndex=ans;
+  lyricsLinesEl.querySelectorAll(".lyric-line").forEach((el,i)=>el.classList.toggle("active",i===ans));
+  if(ans>=0){const el=lyricsLinesEl.querySelector(`[data-lyric="${ans}"]`);if(el)el.scrollIntoView({block:"center",behavior:"smooth"})}
+}
+
+function renderQueue(){
+  if(!playlist.length){queueList.innerHTML='<div class="lyrics-empty">No playlist loaded.</div>';return}
+  const max=Math.min(playlist.length,50),items=[];
+  for(let n=0;n<max;n++){
+    const i=(currentIndex+n)%playlist.length,s=playlist[i];
+    items.push(`<div class="queue-item"><strong>${esc(songName(s))}</strong><span class="${n===0?'queue-now':''}">${n===0?'NOW PLAYING':esc(songArtist(s))}${n===0?' • '+esc(songArtist(s)):''}</span></div>`);
+  }
+  queueList.innerHTML=items.join("");
+}
+
+function fillRequestSongs(){
+  requestSong.innerHTML=playlist.map((s,i)=>`<option value="${esc(songName(s))}">${esc(songName(s))} — ${esc(songArtist(s))}</option>`).join("");
+  if(currentIndex>=0)requestSong.selectedIndex=currentIndex;
+}
+
+function openModal(el){el.classList.add("open");document.body.style.overflow="hidden"}
+function closeModal(el){el.classList.remove("open");if(!document.querySelector(".modal.open"))document.body.style.overflow=""}
+
+function showCover(song){
+  if(song.cover){
+    coverEl.src=song.cover;
+    coverEl.style.display="block";
+    fallbackArt.style.display="none";
+  }else{
+    coverEl.removeAttribute("src");coverEl.style.display="none";fallbackArt.style.display="block";
+  }
+}
+
+function showTrack(i){
+  const s=playlist[i];currentIndex=i;
+  titleEl.textContent=s.title||s.filename;artistEl.textContent=s.artist||"Unknown Artist";
+  const n=playlist[(i+1)%playlist.length];
+  nextTitleEl.textContent=n.title||n.filename;nextArtistEl.textContent=n.artist||"Unknown Artist";
+  showCover(s);
+  audio.src=s.url;audio.load();
+  loadLyrics(s);
+}
+
+async function jumpToScheduledPosition(){
+  if(!playlist.length)return;
+  const info=scheduleInfo();
+  if(info.index!==currentIndex)showTrack(info.index);
+  const wanted=Number(info.offset);
+  const set=()=>{try{audio.currentTime=Math.min(wanted,Math.max(0,audio.duration-0.15))}catch(e){}};
+  if(!Number.isFinite(audio.duration)||audio.duration<=0){
+    await new Promise(resolve=>{
+      let done=false;
+      const finish=()=>{if(done)return;done=true;audio.removeEventListener("loadedmetadata",finish);resolve()};
+      audio.addEventListener("loadedmetadata",finish,{once:true});setTimeout(finish,4000);
+    });
+  }
+  set();
+  try{
+    await audio.play();started=true;startButton.classList.remove("hidden");startButton.textContent="Mute";
+    statusEl.textContent="LIVE • synchronized broadcast";
+  }catch(e){
+    started=false;startButton.classList.remove("hidden");
+    statusEl.textContent="Tap Start Radio to join the live broadcast";
+  }
+}
+
+function tick(){
+  if(!playlist.length)return;
+  const info=scheduleInfo();
+  if(info.index!==currentIndex){showTrack(info.index);if(started)jumpToScheduledPosition()}
+  const d=Number(playlist[info.index].duration),p=Number(info.offset);
+  progressEl.style.width=Math.min(100,p/d*100)+"%";
+  elapsedEl.textContent=fmt(p);remainingEl.textContent="-"+fmt(d-p);
+}
+
+startButton.onclick=async()=>{
+  if(!started){
+    await jumpToScheduledPosition();
+  }else if(audio.muted){
+    audio.muted=false;
+    startButton.textContent="Mute";
+    statusEl.textContent="LIVE • synchronized broadcast";
+  }else{
+    audio.muted=true;
+    startButton.textContent="Unmute";
+    statusEl.textContent="LIVE • muted";
+  }
+};
+document.addEventListener("visibilitychange",()=>{if(!document.hidden&&playlist.length)jumpToScheduledPosition()});
+audio.addEventListener("error",()=>{statusEl.textContent="Could not load the current MP3. Check that the file exists in /songs/.";});
+audio.addEventListener("ended",jumpToScheduledPosition);
+
+queueButton.onclick=()=>{renderQueue();openModal(queueModal)};
+requestButton.onclick=()=>{fillRequestSongs();openModal(requestModal)};
+document.querySelectorAll("[data-close]").forEach(b=>b.onclick=()=>closeModal(document.getElementById(b.dataset.close)));
+[queueModal,requestModal].forEach(m=>m.addEventListener("click",e=>{if(e.target===m)closeModal(m)}));
+document.addEventListener("keydown",e=>{if(e.key==="Escape"){closeModal(queueModal);closeModal(requestModal)}});
+requestForm.addEventListener("submit",async e=>{
+  e.preventDefault();
+  requestStatus.textContent="Sending request…";
+  try{
+    const data=new URLSearchParams(new FormData(requestForm));
+    const r=await fetch("/",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:data.toString()});
+    if(!r.ok)throw new Error("request failed");
+    requestStatus.textContent="Request sent. The station owner can review it in Netlify Forms.";
+    requestForm.reset();
+  }catch(err){requestStatus.textContent="Could not send the request. Make sure Netlify Forms is enabled for this deployment."}
+});
+
+audio.addEventListener("timeupdate",tickLyrics);
+
+(async()=>{
+  try{
+    await syncClock();await loadPlaylist();
+    showTrack(scheduleInfo().index);await jumpToScheduledPosition();
+    setInterval(tick,1000);
+    setIntervalqueueButton.onclick=()=>{renderQueue();openModal(queueModal)};
+requestButton.onclick=()=>{fillRequestSongs();openModal(requestModal)};
+document.querySelectorAll("[data-close]").forEach(b=>b.onclick=()=>closeModal(document.getElementById(b.dataset.close)));
+[queueModal,requestModal].forEach(m=>m.addEventListener("click",e=>{if(e.target===m)closeModal(m)}));
+document.addEventListener("keydown",e=>{if(e.key==="Escape"){closeModal(queueModal);closeModal(requestModal)}});
+requestForm.addEventListener("submit",async e=>{
+  e.preventDefault();
+  requestStatus.textContent="Sending request…";
+  try{
+    const data=new URLSearchParams(new FormData(requestForm));
+    const r=await fetch("/",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:data.toString()});
+    if(!r.ok)throw new Error("request failed");
+    requestStatus.textContent="Request sent. The station owner can review it in Netlify Forms.";
+    requestForm.reset();
+  }catch(err){requestStatus.textContent="Could not send the request. Make sure Netlify Forms is enabled for this deployment."}
+});
+
+audio.addEventListener("timeupdate",tickLyrics);
+
+(async()=>{await syncClock();tick()},30000);
+  }catch(e){
+    console.error(e);
+    titleEl.textContent="Radio unavailable";artistEl.textContent=e.message;
+    nextTitleEl.textContent=playlist.length?"":"No playlist";
+    nextArtistEl.textContent=playlist.length?(playlist[0].artist||""):"";
+    statusEl.textContent="Fix the songs folder and redeploy the site.";
+  }
+})();
+</script>
+</body>
+</html>
